@@ -10,53 +10,83 @@ import (
 	"github.com/volatile/core"
 )
 
-var errUnknownType = `route: unknown handler type for route "%s %s"`
+var (
+	errUnreachableParams = `route: if you set named params, use func(c *core.Context, map[string]string) handler type for route "%s %s"`
+	errNoParams          = `route: if you don't set named params, use a simple func(c *core.Context) handler type for route "%s %s"`
+	errUnknownType       = `route: unknown handler type for route "%s %s"`
+)
 
-func setHandler(method, path string, handler interface{}) {
+// Use makes a route for the given method.
+func Use(method, pattern string, handler interface{}) {
+	p := newPat(pattern)
+
 	switch handler.(type) {
+
 	// Raw function
 	case func(*core.Context):
-		Use(method, path, handler.(func(*core.Context)))
-	// Status
-	case int:
-		Use(method, path, func(c *core.Context) {
-			http.Error(c.ResponseWriter, http.StatusText(handler.(int)), handler.(int))
+		panicUnreachableParams(method, pattern, p)
+		use(method, p, func(c *core.Context, _ map[string]string) {
+			handler.(func(*core.Context))(c)
 		})
+
+	// Raw function with parameters
+	case func(*core.Context, map[string]string):
+		if !p.hasParams() {
+			panic(fmt.Sprintf(errNoParams, method, pattern))
+		}
+		use(method, p, handler.(func(*core.Context, map[string]string)))
+
 	// String
 	case string:
-		Use(method, path, func(c *core.Context) {
+		panicUnreachableParams(method, pattern, p)
+		use(method, p, func(c *core.Context, _ map[string]string) {
 			c.ResponseWriter.Write([]byte(handler.(string)))
 		})
+
 	// []byte
 	case []byte:
-		Use(method, path, func(c *core.Context) {
+		panicUnreachableParams(method, pattern, p)
+		use(method, p, func(c *core.Context, _ map[string]string) {
 			c.ResponseWriter.Write(handler.([]byte))
 		})
+
+	// Status
+	case int:
+		panicUnreachableParams(method, pattern, p)
+		use(method, p, func(c *core.Context, _ map[string]string) {
+			http.Error(c.ResponseWriter, http.StatusText(handler.(int)), handler.(int))
+		})
+
 	// Others
 	default:
 		switch reflect.ValueOf(handler).Kind() {
+
 		// JSON
 		case reflect.Struct, reflect.Map, reflect.Slice, reflect.Array:
-			useJSONHandler(method, path, handler)
+			panicUnreachableParams(method, pattern, p)
+			useJSONHandler(method, p, handler)
+
 		// Pointer
 		case reflect.Ptr:
 			switch reflect.ValueOf(handler).Elem().Kind() {
 			// Pointer to JSON
 			case reflect.Struct, reflect.Map, reflect.Slice, reflect.Array:
-				useJSONHandler(method, path, handler)
+				panicUnreachableParams(method, pattern, p)
+				useJSONHandler(method, p, handler)
 			// Pointer to unknown type
 			default:
-				panic(fmt.Sprintf(errUnknownType, method, path))
+				panic(fmt.Sprintf(errUnknownType, method, pattern))
 			}
+
 		// Unknown type
 		default:
-			panic(fmt.Sprintf(errUnknownType, method, path))
+			panic(fmt.Sprintf(errUnknownType, method, pattern))
 		}
 	}
 }
 
-func useJSONHandler(method, path string, handler interface{}) {
-	Use(method, path, func(c *core.Context) {
+func useJSONHandler(method string, p *pat, handler interface{}) {
+	use(method, p, func(c *core.Context, _ map[string]string) {
 		c.ResponseWriter.Header().Set("Content-Type", "application/json")
 		js, err := json.Marshal(handler)
 		if err != nil {
@@ -68,52 +98,18 @@ func useJSONHandler(method, path string, handler interface{}) {
 	})
 }
 
-func isValidStatus(v int) bool {
-	return v >= 200 && v <= 599
-}
-
-// Get makes a route for the GET method.
-func Get(path string, handler interface{}) {
-	setHandler("GET", path, handler)
-}
-
-// Post makes a route for the POST method.
-func Post(path string, handler interface{}) {
-	setHandler("POST", path, handler)
-}
-
-// Put makes a route for the PUT method.
-func Put(path string, handler interface{}) {
-	setHandler("PUT", path, handler)
-}
-
-// Patch makes a route for the PATCH method.
-func Patch(path string, handler interface{}) {
-	setHandler("PATCH", path, handler)
-}
-
-// Delete makes a route for the DELETE method.
-func Delete(path string, handler interface{}) {
-	setHandler("DELETE", path, handler)
-}
-
-// Head makes a route for the HEAD method.
-func Head(path string, handler interface{}) {
-	setHandler("HEAD", path, handler)
-}
-
-// Options makes a route for the OPTIONS method.
-func Options(path string, handler interface{}) {
-	setHandler("OPTIONS", path, handler)
-}
-
-// Use makes a route for the given method.
-func Use(method, path string, handler func(*core.Context)) {
+func use(method string, p *pat, handler func(*core.Context, map[string]string)) {
 	core.Use(func(c *core.Context) {
-		if c.Request.Method == method && c.Request.URL.String() == path {
-			handler(c)
+		if c.Request.Method == method && p.match(c) {
+			handler(c, p.parseParams(c))
 		} else {
 			c.Next()
 		}
 	})
+}
+
+func panicUnreachableParams(method, pattern string, p *pat) {
+	if p.hasParams() {
+		panic(fmt.Sprintf(errUnreachableParams, method, pattern))
+	}
 }
