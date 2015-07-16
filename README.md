@@ -23,7 +23,7 @@ import (
 )
 
 func main() {
-	// classic function
+	// Classic function
 	route.Get("/classic", func(c *core.Context) {
 		fmt.Fprint(c.ResponseWriter, "Hello, World!")
 		c.Next()
