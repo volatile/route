@@ -32,7 +32,7 @@ func main() {
 
 	route.Get("/forbidden", http.StatusForbidden)
 
-	route.Get("/json", &Car {
+	route.Get("/json", &Car{
 		ID:    1,
 		Brand: "Bentley",
 		Model: "Continental GT",
