@@ -33,7 +33,7 @@ func main() {
 	route.Get("/hello", "Hello, World!")
 
 	// Named parameters
-	route.Get("^/(?P<id>[0-9]+)$", func(c *core.Context, params map[string]string) {
+	route.Get("^/(?P<name>[A-Za-z]+)$", func(c *core.Context, params map[string]string) {
 		fmt.Fprintf(c.ResponseWriter, "Hello, %s!", params["name"])
 	})
 
