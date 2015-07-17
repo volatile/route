@@ -33,7 +33,7 @@ Method filtering
 Functions exists for the most common and standard HTTP methods.
 If you need to handle a custom method, use the router.Use function.
 
-### Path filtering
+Path filtering
 
 A regular expression is used to match the request path.
 So you keep a full control over your routing strategies.
