@@ -72,8 +72,8 @@ We think the regular expressions offer the best balance between performance and 
 
 If you need to use named parameters, just use a regexp named group like `(?P<id>[0-9]+)` and a `func(c *core.Context, map[string]string)` handler type:
 ```Go
-route.Get("^/(?P<id>[0-9]+)$", func(c *core.Context, params map[string]string) {
-	fmt.Fprint(c.ResponseWriter, "OKAY")
+route.Get("/(?P<name>[A-Za-z]+)", func(c *core.Context, params map[string]string) {
+	fmt.Fprintf(c.ResponseWriter, "Hello, %s!", params["name"])
 })
 ```
 
