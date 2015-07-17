@@ -44,7 +44,7 @@ If you need to handle a custom method, use the `router.Use` function.
 
 ### Path filtering
 
-A [regular expression](https://golang.org/pkg/regexp/) is used to match the request path.  
+A [regular expression](https://golang.org/pkg/regexp/syntax/) is used to match the request path.  
 So you keep a full control over your routing strategies.  
 We think the regular expressions offer the best balance between performance and power for this kind of job.
 
