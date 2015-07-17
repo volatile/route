@@ -11,8 +11,8 @@ import (
 )
 
 var (
-	errUnreachableParams = `route: if you set named params, use func(c *core.Context, map[string]string) handler type for route "%s %s"`
-	errNoParams          = `route: if you don't set named params, use a simple func(c *core.Context) handler type for route "%s %s"`
+	errUnreachableParams = `route: unreachable named params, use func(c *core.Context, map[string]string) handler type for route "%s %s"`
+	errNoParams          = `route: no named params, use a simple func(c *core.Context) handler type for route "%s %s"`
 	errUnknownType       = `route: unknown handler type for route "%s %s"`
 )
 
