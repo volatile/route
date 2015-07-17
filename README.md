@@ -1,4 +1,4 @@
-<p align="center"><img src="https://cloud.githubusercontent.com/assets/9503891/8712746/59aa7b40-2b60-11e5-9d79-fbfdafd21d9c.png" alt="Volatile Compress" title="Volatile Compress"><br><br></p>
+<p align="center"><img src="https://cloud.githubusercontent.com/assets/9503891/8712746/59aa7b40-2b60-11e5-9d79-fbfdafd21d9c.png" alt="Volatile Route" title="Volatile Route"><br><br></p>
 
 Volatile Route is a helper for the [Core](https://github.com/volatile/core).  
 It provides syntactic sugar that create a handler filtered by request's method and path.
