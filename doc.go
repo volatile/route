@@ -4,7 +4,7 @@ It provides syntactic sugar that create a handler filtered by request's method a
 
 Usage
 
-Here is the classic "Hello, World!" example, followed by a route with named parameters:
+"Hello, World!" example, followed by a route with named parameters:
 
 	package main
 
