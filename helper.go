@@ -12,8 +12,8 @@ var (
 	errUnknownType       = `route: unknown handler type for route "%s %s"`
 )
 
-// Use makes a route for the given method.
-func Use(method, pattern string, handler interface{}) {
+// Use makes a route for the given methods.
+func Use(methods []string, pattern string, handler interface{}) {
 	p := newPat(pattern)
 
 	switch handler.(type) {
@@ -21,29 +21,29 @@ func Use(method, pattern string, handler interface{}) {
 	// Context handler
 	case func(*core.Context):
 		if p.namedParams != nil {
-			panic(fmt.Sprintf(errUnreachableParams, method, pattern))
+			panic(fmt.Sprintf(errUnreachableParams, methods, pattern))
 		}
-		use(method, p, func(c *core.Context, _ map[string]string) {
+		use(methods, p, func(c *core.Context, _ map[string]string) {
 			handler.(func(*core.Context))(c)
 		})
 
 	// Context handler with parameters
 	case func(*core.Context, map[string]string):
 		if p.namedParams == nil {
-			panic(fmt.Sprintf(errNoParams, method, pattern))
+			panic(fmt.Sprintf(errNoParams, methods, pattern))
 		}
-		use(method, p, handler.(func(*core.Context, map[string]string)))
+		use(methods, p, handler.(func(*core.Context, map[string]string)))
 
 	// Unknown type
 	default:
-		panic(fmt.Sprintf(errUnknownType, method, pattern))
+		panic(fmt.Sprintf(errUnknownType, methods, pattern))
 
 	}
 }
 
-func use(method string, p *pat, handler func(*core.Context, map[string]string)) {
+func use(methods []string, p *pat, handler func(*core.Context, map[string]string)) {
 	core.Use(func(c *core.Context) {
-		if c.Request.Method == method && p.match(c) {
+		if methodMatch(methods, c) && p.match(c) {
 			handler(c, p.parseParams(c))
 		} else {
 			c.Next()

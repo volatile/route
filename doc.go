@@ -31,7 +31,7 @@ Usage
 Method filtering
 
 Functions exists for the most common and standard HTTP methods.
-If you need to handle a custom method, use the router.Use function.
+If you need to handle a custom methods, use the `router.Use` function with the methods in a strings slice as the first parameter.
 
 Path filtering
 
@@ -39,6 +39,6 @@ A regular expression is used to match the request path.
 So you keep a full control over your routing strategies.
 We think the regular expressions offer the best balance between performance and power for this kind of job.
 
-If you need to use named parameters, just use a regexp named group like (?P<id>[0-9]+) and a func(c *core.Context, map[string]string) handler type.
+If you need to use named parameters from the URL, just use a regexp named group like (?P<id>[0-9]+) and a func(c *core.Context, map[string]string) handler type.
 */
 package route
