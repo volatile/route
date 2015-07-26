@@ -31,7 +31,7 @@ Usage
 Method filtering
 
 Functions exists for the most common and standard HTTP methods.
-If you need to handle a custom methods, use the `router.Use` function with the methods in a strings slice as the first parameter.
+If you need to handle custom methods, use the `router.Use` function with the methods in a strings slice as the first parameter.
 
 Path filtering
 
