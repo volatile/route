@@ -1,10 +1,10 @@
 /*
-Package route is a helper for the Core.
+Package route is a helper for the Core (https://github.com/volatile/core).
 It provides syntactic sugar that create a handler filtered by request's method and path.
 
 Usage
 
-"Hello, World!" example, followed by a route with named parameters:
+Example:
 
 	package main
 
@@ -31,7 +31,9 @@ Usage
 Method filtering
 
 Functions exists for the most common and standard HTTP methods.
-If you need to handle custom methods, use the `router.Use` function with the methods in a strings slice as the first parameter.
+If you need to handle custom methods, use the Use function with the methods in a strings slice as the first parameter.
+
+Remember that HTTP methods are case-sensitive (see RFC 2616 5.1.1 (https://tools.ietf.org/html/rfc2616#section-5.1.1)).
 
 Path filtering
 

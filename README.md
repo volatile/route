@@ -6,10 +6,10 @@ It provides syntactic sugar that create a handler filtered by request's method a
 ## Installation
 
 ```Shell
-$ go get -u github.com/volatile/route
+$ go get github.com/volatile/route
 ```
 
-## Usage
+## Usage [![GoDoc](https://godoc.org/github.com/volatile/route?status.svg)](https://godoc.org/github.com/volatile/route)
 
 ```Go
 package main
@@ -35,12 +35,12 @@ func main() {
 }
 ```
 
-[![GoDoc](https://godoc.org/github.com/volatile/route?status.svg)](https://godoc.org/github.com/volatile/route)
-
 ### Method filtering
 
 Functions exists for the most common and standard HTTP methods.  
-If you need to handle custom methods, use the `router.Use` function with the methods in a strings slice as the first parameter.
+If you need to handle custom methods, use the [`Use`](https://godoc.org/github.com/volatile/route#Use) function with the methods in a strings slice as the first parameter.
+
+Remember that HTTP methods are case-sensitive (see [RFC 2616 5.1.1](https://tools.ietf.org/html/rfc2616#section-5.1.1)).
 
 ### Path filtering
 
