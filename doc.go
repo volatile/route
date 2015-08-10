@@ -2,6 +2,12 @@
 Package route is a helper for the Core (https://github.com/volatile/core).
 It provides syntactic sugar that create a handler filtered by request's method and path.
 
+Installation
+
+In the terminal:
+
+	$ go get github.com/volatile/route
+
 Usage
 
 Example:
