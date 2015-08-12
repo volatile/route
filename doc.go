@@ -39,7 +39,7 @@ Method filtering
 Functions exists for the most common and standard HTTP methods.
 If you need to handle custom methods, use the Use function with the methods in a strings slice as the first parameter.
 
-Remember that HTTP methods are case-sensitive (see RFC 2616 5.1.1 (https://tools.ietf.org/html/rfc2616#section-5.1.1)).
+Remember that HTTP methods are case-sensitive. See RFC 2616 5.1.1 (https://tools.ietf.org/html/rfc2616#section-5.1.1).
 
 Path filtering
 
