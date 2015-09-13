@@ -20,7 +20,7 @@ func Use(methods []string, pattern string, handler interface{}) {
 
 	// Context handler
 	case func(*core.Context):
-		if p.namedParams != nil {
+		if len(p.namedParams) > 0 {
 			panic(fmt.Sprintf(errUnreachableParams, methods, pattern))
 		}
 		use(methods, p, func(c *core.Context, _ map[string]string) {
@@ -29,7 +29,7 @@ func Use(methods []string, pattern string, handler interface{}) {
 
 	// Context handler with parameters
 	case func(*core.Context, map[string]string):
-		if p.namedParams == nil {
+		if len(p.namedParams) == 0 {
 			panic(fmt.Sprintf(errNoParams, methods, pattern))
 		}
 		use(methods, p, handler.(func(*core.Context, map[string]string)))

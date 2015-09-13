@@ -36,7 +36,7 @@ func (p *pat) match(c *core.Context) bool {
 }
 
 func (p *pat) parseParams(c *core.Context) map[string]string {
-	if p.namedParams != nil {
+	if len(p.namedParams) > 0 {
 		params := make(map[string]string)
 		paramsValues := p.regexp.FindStringSubmatch(c.Request.URL.String())[1:]
 		for k, v := range p.namedParams {
