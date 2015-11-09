@@ -32,7 +32,7 @@ func newPat(pattern string) *pat {
 }
 
 func (p *pat) match(c *core.Context) bool {
-	return p.regexp.MatchString(c.Request.URL.String())
+	return p.regexp.MatchString(c.Request.URL.Path)
 }
 
 func (p *pat) parseParams(c *core.Context) map[string]string {
