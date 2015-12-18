@@ -48,4 +48,4 @@ A [regular expression](https://golang.org/pkg/regexp/syntax/) is used to match t
 So you keep a full control over your routing strategies.  
 We think the regular expressions offer the best balance between performance and power for this kind of job.
 
-If you need to use named parameters from the URL, just use a regexp named group like `(?P<id>[0-9]+)` and a `func(c *core.Context, map[string]string)` handler type.
+If you need to use named parameters from the URL, just use a regexp named group like `(?P<id>[0-9]+)` and a `func(*core.Context, map[string]string)` handler type.
