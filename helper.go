@@ -22,7 +22,7 @@ func Use(methods []string, pattern string, handler interface{}) {
 	// Context handler
 	case func(*core.Context):
 		if len(p.namedParams) > 0 {
-			panic(fmt.Sprintf(errUnreachableParams, methods, pattern))
+			panic(fmt.Errorf(errUnreachableParams, methods, pattern))
 		}
 		use(methods, p, func(c *core.Context, _ map[string]string) {
 			handler.(func(*core.Context))(c)
@@ -31,13 +31,13 @@ func Use(methods []string, pattern string, handler interface{}) {
 	// Context handler with parameters
 	case func(*core.Context, map[string]string):
 		if len(p.namedParams) == 0 {
-			panic(fmt.Sprintf(errNoParams, methods, pattern))
+			panic(fmt.Errorf(errNoParams, methods, pattern))
 		}
 		use(methods, p, handler.(func(*core.Context, map[string]string)))
 
 	// Unknown type
 	default:
-		panic(fmt.Sprintf(errUnknownType, methods, pattern))
+		panic(fmt.Errorf(errUnknownType, methods, pattern))
 
 	}
 }
