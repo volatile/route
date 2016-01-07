@@ -2,7 +2,6 @@ package route
 
 import (
 	"fmt"
-	"net/http"
 
 	"github.com/volatile/core"
 )
@@ -49,12 +48,5 @@ func use(methods []string, p *pat, handler func(*core.Context, map[string]string
 		} else {
 			c.Next()
 		}
-	})
-}
-
-// NotFound replies to the request with an HTTP 404 Not Found error.
-func NotFound() {
-	core.Use(func(c *core.Context) {
-		http.Error(c.ResponseWriter, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 	})
 }
