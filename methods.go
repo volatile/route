@@ -11,37 +11,44 @@ func methodMatch(methods []string, c *core.Context) bool {
 	return false
 }
 
-// Get makes a route for the GET method.
+// Get adds a handler to the default handlers stack.
+// It executes the handler when request matches GET method and pattern.
 func Get(pattern string, handler interface{}) {
 	Use([]string{"GET"}, pattern, handler)
 }
 
-// Post makes a route for the POST method.
+// Post adds a handler to the default handlers stack.
+// It executes the handler when request matches POST method and pattern.
 func Post(pattern string, handler interface{}) {
 	Use([]string{"POST"}, pattern, handler)
 }
 
-// Put makes a route for the PUT method.
+// Put adds a handler to the default handlers stack.
+// It executes the handler when request matches PUT method and pattern.
 func Put(pattern string, handler interface{}) {
 	Use([]string{"PUT"}, pattern, handler)
 }
 
-// Patch makes a route for the PATCH method.
+// Patch adds a handler to the default handlers stack.
+// It executes the handler when request matches PATCH method and pattern.
 func Patch(pattern string, handler interface{}) {
 	Use([]string{"PATCH"}, pattern, handler)
 }
 
-// Delete makes a route for the DELETE method.
+// Delete adds a handler to the default handlers stack.
+// It executes the handler when request matches DELETE method and pattern.
 func Delete(pattern string, handler interface{}) {
 	Use([]string{"DELETE"}, pattern, handler)
 }
 
-// Head makes a route for the HEAD method.
+// Head adds a handler to the default handlers stack.
+// It executes the handler when request matches HEAD method and pattern.
 func Head(pattern string, handler interface{}) {
 	Use([]string{"HEAD"}, pattern, handler)
 }
 
-// Options makes a route for the OPTIONS method.
+// Options adds a handler to the default handlers stack.
+// It executes the handler when request matches OPTIONS method and pattern.
 func Options(pattern string, handler interface{}) {
 	Use([]string{"OPTIONS"}, pattern, handler)
 }

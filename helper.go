@@ -12,7 +12,8 @@ var (
 	errUnknownType       = `route: unknown handler type for route "%s %s"`
 )
 
-// Use makes a route for the given methods.
+// Use adds a handler to the default handlers stack.
+// It executes the handler when request matches methods and pattern.
 func Use(methods []string, pattern string, handler interface{}) {
 	p := newPat(pattern)
 
